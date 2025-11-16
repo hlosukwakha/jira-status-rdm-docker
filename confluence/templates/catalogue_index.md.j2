@@ -1,0 +1,10 @@
+h1. Workflow Status Catalogue (Global)
+
+*Version:* {{ doc.version | default("1.0.0") }}\
+*Owner:* {{ doc.owner | default("Process Council") }}\
+*Steward:* {{ doc.steward | default("Jira Admin Guild") }}
+
+|| Status name || Key || Category || Stage || Lifecycle ||
+{% for s in doc.statuses -%}
+| {{ s.name }} | {{ s.key }} | {{ s.category }} | {{ s.stage or "-" }} | {{ s.lifecycle or "Approved" }} |
+{% endfor %}

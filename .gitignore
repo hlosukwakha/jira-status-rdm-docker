@@ -1,0 +1,12 @@
+# Python / venv
+__pycache__/
+*.pyc
+.venv/
+.env
+# Airflow
+airflow/logs/
+airflow/dags/__pycache__/
+# Node/other
+node_modules/
+# OS files
+.DS_Store

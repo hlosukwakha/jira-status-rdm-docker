@@ -1,0 +1,76 @@
+version: 1.0.0
+owner: "Process Council"
+steward: "Jira Admin Guild"
+lifecycle_states: ["Proposed","Approved","Deprecated","Retired"]
+statuses:
+  - key: STAT.TODO.BACKLOG
+    name: Backlog
+    category: To Do
+    stage: Discover
+    description: Intake state before grooming
+    lifecycle: Approved
+    transitions_in: []
+    transitions_out: ["STAT.TODO.READY"]
+    conditions: []
+    validators: []
+    post_functions: []
+    permissions: ["Transition: Product Owner"]
+    requestor: PMO
+    business_rationale: Intake prior to prioritisation
+    business_impact_if_removed: Affects intake dashboards and total cycle time
+    related_automations: ["Auto-create subtask template"]
+    related_reports: ["Cumulative Flow", "Backlog Health"]
+
+  - key: STAT.TODO.READY
+    name: Ready for Work
+    category: To Do
+    stage: Commit
+    description: Groomed and prioritised
+    lifecycle: Approved
+    transitions_in: ["STAT.TODO.BACKLOG"]
+    transitions_out: ["STAT.WIP.IN_PROGRESS","STAT.WIP.ON_HOLD"]
+    conditions: ["Only Developers, Agents"]
+    validators: ["All required fields present"]
+    post_functions: ["Set StartTime=now"]
+    permissions: ["Transition: Developers, Agents"]
+    requestor: "Service Ops"
+    business_rationale: Stage gate after grooming
+    business_impact_if_removed: Breaks lead-time-to-start KPI
+    related_automations: ["Auto-start on commit"]
+    related_reports: ["Lead Time (Ready→Done)"]
+
+  - key: STAT.WIP.IN_PROGRESS
+    name: In Progress
+    category: In Progress
+    stage: Deliver
+    lifecycle: Approved
+    transitions_in: ["STAT.TODO.READY"]
+    transitions_out: ["STAT.WIP.BLOCKED","STAT.DONE.DONE"]
+    conditions: []
+    validators: []
+    post_functions: []
+    permissions: ["Transition: Assignee"]
+
+  - key: STAT.WIP.BLOCKED
+    name: Blocked
+    category: In Progress
+    stage: Deliver
+    lifecycle: Approved
+    transitions_in: ["STAT.WIP.IN_PROGRESS"]
+    transitions_out: ["STAT.WIP.IN_PROGRESS"]
+    conditions: ["Field 'Blocker reason' required"]
+    validators: []
+    post_functions: []
+    permissions: ["Transition: Assignee"]
+
+  - key: STAT.DONE.DONE
+    name: Done
+    category: Done
+    stage: Close
+    lifecycle: Approved
+    transitions_in: ["STAT.WIP.IN_PROGRESS"]
+    transitions_out: []
+    conditions: []
+    validators: ["Resolution must be set"]
+    post_functions: ["Fire 'Issue Closed'"]
+    permissions: ["Transition: Assignee"]

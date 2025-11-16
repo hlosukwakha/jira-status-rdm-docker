@@ -1,0 +1,19 @@
+h1. {{ s.name }} ({{ s.key }})
+
+|| Field || Value ||
+| *Status name* | {{ s.name }} |
+| *Stable key* | {{ s.key }} |
+| *Status category* | {{ s.category }} |
+| *Stage/Phase* | {{ s.stage or "-" }} |
+| *Description* | {{ s.description or "-" }} |
+| *Transitions in* | {{ (s.transitions_in or []) | join(", ") or "-" }} |
+| *Transitions out* | {{ (s.transitions_out or []) | join(", ") or "-" }} |
+| *Conditions* | {{ (s.conditions or []) | join("; ") or "-" }} |
+| *Validators* | {{ (s.validators or []) | join("; ") or "-" }} |
+| *Post functions* | {{ (s.post_functions or []) | join("; ") or "-" }} |
+| *Permissions* | {{ (s.permissions or []) | join("; ") or "-" }} |
+| *Requestor* | {{ s.requestor or "-" }} |
+| *Business rationale* | {{ s.business_rationale or "-" }} |
+| *Business impact if removed* | {{ s.business_impact_if_removed or "-" }} |
+| *Related automations* | {{ (s.related_automations or []) | join(", ") or "-" }} |
+| *Related reports* | {{ (s.related_reports or []) | join(", ") or "-" }} |
